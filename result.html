@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        body {
+            
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: aquamarine;
+        }
+
+        h2 {
+            text-align: left;
+            color: red;
+        }
+
+        div {
+            background-color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            margin-right: 1075px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        div:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .value {
+            
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h2>Results:</h2>
+    <div><span class="label">IP Address</span>: <span class="value">{{ ipaddr }}</span></div>
+    <div><span class="label">Subnet Mask</span>: <span class="value">{{ subnet }}</span></div>
+    <div><span class="label">Network Address</span>: <span class="value">{{ network }}</span></div>
+    <div><span class="label">Broadcast Address</span>: <span class="value">{{ broadcast }}</span></div>
+    <div><span class="label">IP Class</span>: <span class="value">{{ ip_class }}</span></div>
+</body>
+</html>
