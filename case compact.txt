@@ -1,0 +1,266 @@
+browser commands
+
+package seletest;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Demo {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\Uday\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+        try {
+            driver.get("https://www.intel.com");
+            System.out.println("Page Title: " + driver.getTitle());
+            System.out.println("Current URL: " + driver.getCurrentUrl());
+            driver.navigate().to("https://www.google.com");
+            System.out.println("Navigated to Google. Current URL: " + driver.getCurrentUrl());
+            driver.navigate().back();
+            System.out.println("Navigated Back. Current URL: " + driver.getCurrentUrl());
+            driver.navigate().forward();
+            System.out.println("Navigated Forward. Current URL: " + driver.getCurrentUrl());
+            driver.navigate().refresh();
+            System.out.println("Page refreshed.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit();
+            System.out.println("Browser session ended.");
+        }
+    }
+}
+
+
+
+
+cookie handling
+
+
+
+package seletest;
+
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import java.util.Set;
+
+public class Demo {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\Uday\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+        driver.get("https://www.example.com");
+        Set<Cookie> allCookies = driver.manage().getCookies();
+        for (Cookie cookie : allCookies) System.out.println(cookie.getName() + " : " + cookie.getValue());
+        Cookie specificCookie = driver.manage().getCookieNamed("cookie_name");
+        if (specificCookie != null) System.out.println("Specific Cookie (cookie_name): " + specificCookie.getValue());
+        else System.out.println("Cookie with name 'cookie_name' not found.");
+        Cookie newCookie = new Cookie("myCookie", "cookieValue123");
+        driver.manage().addCookie(newCookie);
+        System.out.println("New Cookie added: " + newCookie.getName() + " = " + newCookie.getValue());
+        Cookie addedCookie = driver.manage().getCookieNamed("myCookie");
+        if (addedCookie != null) System.out.println("Added Cookie: " + addedCookie.getName() + " = " + addedCookie.getValue());
+        driver.manage().deleteCookieNamed("myCookie");
+        System.out.println("Cookie 'myCookie' has been deleted.");
+        Cookie deletedCookie = driver.manage().getCookieNamed("myCookie");
+        if (deletedCookie == null) System.out.println("Cookie 'myCookie' is no longer available.");
+        driver.quit();
+    }
+}
+
+
+
+: Object Identification, findElement and findElements
+
+
+
+package seletest;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\Uday\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+        driver.get("https://www.google.com");
+        WebElement searchBox = driver.findElement(By.name("q"));
+        searchBox.sendKeys("Selenium WebDriver");
+        searchBox.submit();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h3")));
+        List<WebElement> searchResults = driver.findElements(By.tagName("a"));
+        System.out.println("Number of search result links: " + searchResults.size());
+        for (WebElement result : searchResults) {
+            System.out.println("Link Text: " + result.getText());
+        }
+        WebElement firstResultLink = driver.findElement(By.xpath("(//a/h3)[1]"));
+        System.out.println("First search result link: " + firstResultLink.getText());
+        driver.quit();
+    }
+}
+
+
+text box ,pass ,button
+
+package seletest;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Demo {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\Uday\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+        driver.get("http://demo.guru99.com/test/login.html");
+        WebElement email = driver.findElement(By.id("email"));
+        WebElement password = driver.findElement(By.name("passwd"));
+        email.sendKeys("abcd@gmail.com");
+        password.sendKeys("abcdefghlkjl");
+        System.out.println("Text Field Set");
+        email.clear();
+        password.clear();
+        System.out.println("Text Field Cleared");
+        WebElement login = driver.findElement(By.id("SubmitLogin"));
+        email.sendKeys("abcd@gmail.com");
+        password.sendKeys("abcdefghlkjl");
+        login.click();
+        System.out.println("Login Done with Click");
+        driver.get("http://demo.guru99.com/test/login.html");
+        driver.findElement(By.id("email")).sendKeys("abcd@gmail.com");
+        driver.findElement(By.name("passwd")).sendKeys("abcdefghlkjl");
+        driver.findElement(By.id("SubmitLogin")).submit();
+        System.out.println("Login Done with Submit");
+    }
+}
+
+
+
+radio buttons ,check box and links
+
+
+package seletest;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Demo {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\Uday\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+        driver.get("https://demo.guru99.com/test/radio.html");
+
+        // Radio Buttons
+        WebElement radioButton1 = driver.findElement(By.id("vfb-7-1"));
+        WebElement radioButton2 = driver.findElement(By.id("vfb-7-2"));
+        WebElement radioButton3 = driver.findElement(By.id("vfb-7-3"));
+        radioButton2.click();
+        System.out.println("Radio Button 2 Selected: " + radioButton2.isSelected());
+
+        // Checkboxes
+        WebElement checkBox1 = driver.findElement(By.id("vfb-6-0"));
+        WebElement checkBox2 = driver.findElement(By.id("vfb-6-1"));
+        checkBox1.click();
+        checkBox2.click();
+        System.out.println("Checkbox 1 Selected: " + checkBox1.isSelected());
+        System.out.println("Checkbox 2 Selected: " + checkBox2.isSelected());
+
+        // Links
+        WebElement link = driver.findElement(By.linkText("Demo Site"));
+        System.out.println("Link Text: " + link.getText());
+        link.click();
+        System.out.println("Navigated to: " + driver.getCurrentUrl());
+
+        driver.quit();
+    }
+}
+
+
+
+combined
+package seletest;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class Demo {
+    public static void main(String[] args) throws InterruptedException { // Add `throws InterruptedException`
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\Uday\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+
+        // Navigate to login page and handle text box, password, and button
+        driver.navigate().to("http://demo.guru99.com/test/login.html");
+        Thread.sleep(2000); // Wait for 2 seconds
+
+        WebElement email = driver.findElement(By.id("email"));
+        WebElement password = driver.findElement(By.name("passwd"));
+        email.sendKeys("abcd@gmail.com");
+        password.sendKeys("abcdefghlkjl");
+        System.out.println("Text Field Set");
+        Thread.sleep(2000);
+
+        email.clear();
+        password.clear();
+        System.out.println("Text Field Cleared");
+        Thread.sleep(2000);
+
+        WebElement login = driver.findElement(By.id("SubmitLogin"));
+        email.sendKeys("abcd@gmail.com");
+        password.sendKeys("abcdefghlkjl");
+        login.click();
+        System.out.println("Login Done with Click");
+        Thread.sleep(2000);
+
+        // Navigate back to login page and use submit method
+        driver.navigate().to("http://demo.guru99.com/test/login.html");
+        Thread.sleep(2000);
+
+        driver.findElement(By.id("email")).sendKeys("abcd@gmail.com");
+        driver.findElement(By.name("passwd")).sendKeys("abcdefghlkjl");
+        driver.findElement(By.id("SubmitLogin")).submit();
+        System.out.println("Login Done with Submit");
+        Thread.sleep(2000);
+
+        // Navigate to radio button, checkbox, and links demo page
+        driver.navigate().to("https://demo.guru99.com/test/radio.html");
+        Thread.sleep(2000);
+
+        // Radio Buttons
+        WebElement radioButton1 = driver.findElement(By.id("vfb-7-1"));
+        WebElement radioButton2 = driver.findElement(By.id("vfb-7-2"));
+        WebElement radioButton3 = driver.findElement(By.id("vfb-7-3"));
+        radioButton2.click();
+        System.out.println("Radio Button 2 Selected: " + radioButton2.isSelected());
+        Thread.sleep(2000);
+
+        // Checkboxes
+        WebElement checkBox1 = driver.findElement(By.id("vfb-6-0"));
+        WebElement checkBox2 = driver.findElement(By.id("vfb-6-1"));
+        checkBox1.click();
+        checkBox2.click();
+        System.out.println("Checkbox 1 Selected: " + checkBox1.isSelected());
+        System.out.println("Checkbox 2 Selected: " + checkBox2.isSelected());
+        Thread.sleep(2000);
+
+        // Links
+        WebElement link = driver.findElement(By.li1nkText("Demo Site"));
+        System.out.println("Link Text: " + link.getText());
+        link.click();
+        System.out.println("Navigated to: " + driver.getCurrentUrl());
+        Thread.sleep(2000);
+
+        // Quit the browser
+        driver.quit();
+    }
+}
+
+
+
